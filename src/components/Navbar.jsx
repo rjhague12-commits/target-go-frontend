@@ -43,6 +43,10 @@ function Navbar() {
                             color: 'white', padding: '6px 14px', borderRadius: '20px',
                             fontSize: '14px', fontWeight: '500'
                         }}>Orders</Link>
+                        <Link to="/account" style={{
+                            color: 'white', padding: '6px 14px', borderRadius: '20px',
+                            fontSize: '14px', fontWeight: '500'
+                        }}>My Account</Link>
                     </>
                 )}
             </div>
