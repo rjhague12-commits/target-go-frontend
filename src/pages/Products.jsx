@@ -79,9 +79,14 @@ function Products() {
                     >
                         <div style={{
                             background: '#f9f9f9', height: '160px', display: 'flex',
-                            alignItems: 'center', justifyContent: 'center', fontSize: '48px'
+                            alignItems: 'center', justifyContent: 'center', overflow: 'hidden'
                         }}>
-                            🛍️
+                            {product.imageUrl ? (
+                                <img src={product.imageUrl} alt={product.name}
+                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ) : (
+                                <span style={{ fontSize: '48px' }}>🛍️</span>
+                            )}
                         </div>
                         <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                             <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '6px', color: '#222' }}>
