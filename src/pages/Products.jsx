@@ -6,6 +6,7 @@ function Products() {
     const [products, setProducts] = useState([])
     const [search, setSearch] = useState('')
     const [message, setMessage] = useState('')
+    const [messageType, setMessageType] = useState('success')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,10 +18,17 @@ function Products() {
     const addToCart = async (productId) => {
         try {
             await api.post('/cart/add', { productId: Number(productId), quantity: 1 })
+            setMessageType('success')
             setMessage('Added to cart!')
             setTimeout(() => setMessage(''), 2000)
-        } catch {
-            navigate('/login')
+        } catch (err) {
+            if (err.response && err.response.status === 400) {
+                setMessageType('error')
+                setMessage('Not enough stock available!')
+                setTimeout(() => setMessage(''), 3000)
+            } else {
+                navigate('/login')
+            }
         }
     }
 
@@ -43,7 +51,13 @@ function Products() {
             </div>
 
             {message && (
-                <div style={{ background: '#e6f4ea', color: '#2e7d32', padding: '12px 20px', borderRadius: '8px', marginBottom: '20px', fontWeight: '600', border: '1px solid #c8e6c9' }}>
+                <div style={{
+                    background: messageType === 'success' ? '#e6f4ea' : '#fff0f0',
+                    color: messageType === 'success' ? '#2e7d32' : '#cc0000',
+                    padding: '12px 20px', borderRadius: '8px', marginBottom: '20px',
+                    fontWeight: '600',
+                    border: messageType === 'success' ? '1px solid #c8e6c9' : '1px solid #ffcccc'
+                }}>
                     {message}
                 </div>
             )}
@@ -99,7 +113,7 @@ function Products() {
                                             transition: 'background 0.2s'
                                         }}
                                         onMouseEnter={e => { if (!outOfStock) e.target.style.background = '#aa0000' }}
-                                        onMouseLeave={e => { if (!outOfStock) e.target.style.background = '#cc0000' }}
+                                        onMouseLeave={e => { if (!outOfStock) e.target.style.background = outOfStock ? '#ccc' : '#cc0000' }}
                                     >
                                         {outOfStock ? 'Out of Stock' : 'Add to Cart'}
                                     </button>
